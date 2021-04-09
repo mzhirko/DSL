@@ -1,0 +1,30 @@
+int doohickey;
+doohickey = 3;
+print doohickey;
+
+//Silly comment
+
+string str;
+str = "Musk";
+print str;
+
+/*
+ *Another silly comment
+ *but this time multiline
+ */
+
+table table;
+table(read example.csv to table);
+table(print table);
+table(remove row at 2 from table);
+table(print table);
+
+if(doohickey > 2) {
+   print str;
+   int count;
+   count = 10;
+} else if(count < 5) {
+   print "Bloomberg";
+} else {
+   print doohickey;
+}
