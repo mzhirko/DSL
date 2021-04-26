@@ -1,0 +1,69 @@
+     	Table tbl = new Table("~/eziql/examples/example.csv");
+        System.out.println(tbl.table.toString());
+        
+        System.out.println("\n(Add row 1 to the end)");
+        tbl.addRow(tbl.getRow(1));
+        
+        System.out.println("\nLast row: \n" + tbl.getRow(tbl.numRows()-1));
+
+        printTable(tbl);
+
+        System.out.println("\n(Add cloumn 1 to the table)");
+        tbl.addCol(tbl.getColumn(1, false));
+
+        System.out.println("\n(Table tbl)");
+        printTable(tbl);
+
+        Table t2 = new Table(tbl);
+        t2.addCol(tbl.getColumn(3, true));
+        t2.removeRow(2);
+        t2.removeCol(0);
+        t2.removeCol(1);
+
+        System.out.println("\n(Table t2)");
+        printTable(t2);
+
+        System.out.println("\n(Table t2 + tbl)");
+        printTable(t2.addTable(tbl));
+
+        /*Table t1 = new Table("~/temp/eziql/examples/csv1.csv");
+        Table t2 = new Table("~/temp/eziql/examples/csv2.csv");
+        
+        System.out.println("\n(Table t1)");
+        t1.printTable();
+
+        System.out.println("\n(Table t2)");
+        t2.printTable();
+    
+        List<String> col = t1.getColumn(0, true);
+        
+
+        Table t3;
+        System.out.println("\n(Table t2 - t1)");
+        t3 = t2.subTable(t2);
+        t3.printTable();
+
+        System.out.println("\n(Table t2 == t2)");
+        System.out.println(t2.isEqual(t2));
+
+        System.out.println("\n(Maximum of column 0 and column 1)");
+        System.out.println(t1.max(t1.getColumn(0, true)));
+
+        System.out.println("\n(Minimum of column 0 and column 1)");
+        System.out.println(t1.min(t1.getColumn(0, true)));
+
+        System.out.println("\n(Sum of column 0 and 1)");
+        System.out.println(t1.sum(t1.getColumn(0, false)));
+
+        System.out.println("\n(Average of column 0 and 1)");
+        System.out.println(t1.avg(t1.getColumn(0, false)));
+
+        Table tAux = new Table(t1);
+
+        System.out.println("\nTable t1 ascending sort");
+        t1.sort();
+        t1.printTable();
+
+        System.out.println("\nTable t1 descending sort");
+        tAux.sortDesc();
+        tAux.printTable();*/

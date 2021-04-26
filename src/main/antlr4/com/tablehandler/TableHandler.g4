@@ -1,4 +1,4 @@
- grammar eziql;
+ grammar TableHandler;
 
 /*
  *----------------
@@ -43,22 +43,22 @@ expr: n=numExpr
 
 // Number expressions
 numExpr returns [String value]:
-         expression1=numExpr op=('+'|'-'|'*'|'/') expression2=numExpr   #Arithm
-    |    '(' numExpr ')'                                                #Par 
-    |    INTEGER                                                        #Int
-    |    DOUBLE                                                         #Double
-    |    ID                                                             #Var
+         e1=numExpr op=('+'|'-'|'*'|'/') e2=numExpr  #Arithm
+    |    '(' numExpr ')'                             #Par
+    |    INTEGER                                     #Int
+    |    DOUBLE                                      #Double
+    |    ID                                          #Var
     ;
 
 // Boolean expressions
-boolExpr: expression1=boolExpr op=('||'|'&&'|'=='|'!=') expression2=boolExpr
+boolExpr: e1=boolExpr op=('||'|'&&'|'=='|'!=') e2=boolExpr
     |     compareExpr
     |     BOOLEAN                                         
     |     ID                                              
     ;
 
 // Compare expressions
-compareExpr: expression1=numExpr op=('=='|'!='|'<'|'>'|'<='|'>=') expression2=numExpr;
+compareExpr: e1=numExpr op=('=='|'!='|'<'|'>'|'<='|'>=') e2=numExpr;
 
 // Tables
 tableExpr: 'table(' 
@@ -95,7 +95,7 @@ tableExpr: 'table('
     )      ')'
     ;
 
-// Table operationsa
+// Table operations base on Table.java
 newTable: 'read' file 'to' ID;
 addRow: 'add row' STRING 'to' ID; 
 addRowFrom: 'add row' STRING 'at' INTEGER 'to' ID;

@@ -1,0 +1,68 @@
+stat(stat)::= <<
+<if(stat)><stat; separator="\n"><endif> 
+>>
+
+ifstat(ifstat)::= <<
+<if(ifstat)><ifstat; separator="\n"><endif> 
+>>
+
+main(className,stat)::=<<
+public class <className>{
+    public static void main(String[] args){
+        <stat(stat)>
+    }
+}>>
+
+ifStatement(condition, ifstat)::= <<
+ if(<condition>) {
+    <ifstat(ifstat)>
+ }>>
+
+ elseIfList(condition, ifstat)::= <<
+ else if(<condition>) {
+    <ifstat(ifstat)>
+ }>>
+
+elseStatement(ifstat)::= <<
+ else {
+    <ifstat(ifstat)>
+ }>>
+
+declaration(dataType, name)::= << <dataType> <name>;>>
+
+assignment(name, value)::= << <name> = <value>;>>
+
+print(expression)::= << System.out.println(<expression>);>>
+printVar(var)::= << System.out.println(<var>);>>
+
+newTable(var, file)::= << <var> = new Table(<file>);>>
+addRow(var, row)::= << <var>.addRow(<row>);>>
+addRowFrom(var, row, idx)::= << <var>.addRow(<idx>,<row>);>>
+removeRow(var, idx)::= << <var>.removeRow(<idx>);>>
+getValue(var, row, col)::= << <var>.getValue(<row>,<col>);>>
+setValue(var, row, col, value)::= << <var>.setValue(<row>,<col>,<value>);>>
+clearRow(var, idx)::= << <var>.clearRow(<idx>);>>
+addCol(var, col)::= << <var>.addCol(<col>);>>
+addColFrom(var, col, idx)::= << <var>.addCol(<idx>,<col>);>>
+removeCol(var, idx)::= << <var>.removeCol(<idx>);>>
+clearField(var, row, col)::= << <var>.clearField(<row>,<col>);>>
+numColumns(var)::= << <var>.numColumns();>>
+numRows(var)::= << <var>.numRows();>>
+getUnique(var, idx)::= << <var>.getUnique(<idx>);>>
+getColumn(var, idx, header)::= << <var>.getColumn(<idx>,<header>);>>
+getRow(var, idx)::= << <var>.getRow(<idx>);>>
+getHeaderIndex(var, str)::= << <var>.getHeaderIndex(<str>);>>
+subTableCol(var, start, end)::= << <var>.subTableCol(<start>,<end>);>>
+subTableCol2(var, start)::= << <var>.subTableCol(<start>);>>
+subTableRow(var, start, end)::= << <var>.subTableRow(<start>,<end>);>>
+subTableRow2(var, start)::= << <var>.subTableRow(<start>);>>
+addTable(var1, var2)::= << <var1>.addTable(<var2>);>>
+subTable(var1, var2)::= << <var1>.subTable(<var2>);>>
+sort(var)::= << <var>.sort();>>
+sortDesc(var)::= << <var>.sortDesc();>>
+isEqual(var1, var2)::= << <var1>.isEqual(<var2>);>>
+export(var, file)::= << <var>.export(<file>);>>
+printTable(var)::= << <var>.printTable();>>
+printFirst(var, idx)::= << <var>.head(<idx>);>>
+printLast(var, idx)::= << <var>.tail(<idx>);>>
+null()::= <<>>
