@@ -8,44 +8,33 @@ import java.lang.System.*;
 
 
 /**
-* <h1>Classe Table</h1>
-* Classe que implementa uma Tabela e respectivas operações
-* de manipulação da mesma, em colunas, linhas ou mesmo a
-* tabela completa.
-* <p>
-* Ficheiro faz parte do Trabalho Prático de Linguagens Formais
-* e Autómatos, do curso de Eng. de Computadores e Telemática
-* da Universidade de Aveiro.
-* <p>
-* 
+* Table Class
+* Class that implements a Table and its manipulative operations,
+* for columns, rows or even the entire table.
 *
-* @author  Cristiano Vagos (cristianovagos@ua.pt), Paulo Gil (paulogil@ua.pt)
-* @version 1.0
-* @since   2017-06-14 
 */
+
 
 public class Table
 {
     /**  
-    * A Tabela propriamente dita.
+    * The actual table
     */
     private List<List<String>> table;
 
     /**
-    * Cria uma Tabela a partir de um caminho para um 
-    * ficheiro CSV.
+    * Creates a Table from a path to a CSV file.
     *
-    * @param path Caminho absoluto para o ficheiro CSV
+    * path absolute_path_to_the_CSV_file
     */
     public Table(String path){
         this.table = readCSV(path);
     }
 
     /**
-    * Cria uma Tabela a partir de uma outra Tabela 
-    * (objecto) já existente.
+    * Creates a Table from an existing Table (object) 
     *
-    * @param other Tabela já existente
+    * other existing_table
     */
     public Table(Table other)
     {
@@ -53,9 +42,9 @@ public class Table
     }
 
     /**
-    * Cria uma Tabela a partir de uma outra Lista já existente.
+    * Creates a Table from an existing List
     *
-    * @param table Tabela (lista)
+    * table table(list)
     */
     public Table(List<List<String>> table)
     {
@@ -63,35 +52,26 @@ public class Table
     }
     
     /**
-    * Função principal.
-    * Usada para testes das funcionalidades.
+    * Main func
+    * Used for functionality testing.
     *
-    * @param args Sequência de argumentos aquando da execução do ficheiro 
+    * args Argument sequence when executing the file 
     */
     public static void main(String[] args){
-        /*Table tbl = new Table("/home/cristiano/Área de Trabalho/LFA/Pratica/proj/csvtable/CSV/example.csv");
+        /*Table tbl = new Table("~/temp/eziql/examples/example.csv");
         System.out.println(tbl.table.toString());
-        System.out.println("\nColuna 3 s/ header \n" + tbl.getColumn(3, false));
-        System.out.println("\nColuna 3 c/ header \n" + tbl.getColumn(3, true));
-        System.out.println("\nColuna 3 Unique: \n" + tbl.getUnique(3));
-        System.out.println("\nColuna 1 e 2: \n" + tbl.subTableCol(1, 2));
-        System.out.println("\nColuna 1 para a frente: \n" + tbl.subTableCol(1));
-        System.out.println("\nLinha 1 para a frente: \n" + tbl.subTableRow(1));
-        System.out.println("\nColuna 1 para a frente: \n" + tbl.subTableCol(1));
-        System.out.println("\nLinha 1: \n" + tbl.getRow(1));
-        System.out.println("\nLinha 2: \n" + tbl.getRow(2));
         
-        System.out.println("\n(Adicionar Linha 1 no fim)");
+        System.out.println("\n(Add row 1 to the end)");
         tbl.addRow(tbl.getRow(1));
         
-        System.out.println("\nUltima linha: \n" + tbl.getRow(tbl.numRows()-1));
+        System.out.println("\nLast row: \n" + tbl.getRow(tbl.numRows()-1));
 
         printTable(tbl);
 
-        System.out.println("\n(Adicionar coluna 1 à tabela)");
+        System.out.println("\n(Add cloumn 1 to the table)");
         tbl.addCol(tbl.getColumn(1, false));
 
-        System.out.println("\n(Tabela tbl)");
+        System.out.println("\n(Table tbl)");
         printTable(tbl);
 
         Table t2 = new Table(tbl);
@@ -100,66 +80,64 @@ public class Table
         t2.removeCol(0);
         t2.removeCol(1);
 
-        System.out.println("\n(Tabela t2)");
+        System.out.println("\n(Table t2)");
         printTable(t2);
 
-        System.out.println("\n(Tabela t2 + tbl)");
+        System.out.println("\n(Table t2 + tbl)");
         printTable(t2.addTable(tbl));*/
 
-        /*Table t1 = new Table("/home/cristiano/Área de Trabalho/LFA/Pratica/proj/csvtable/CSV/csv1.csv");
-        Table t2 = new Table("/home/cristiano/Área de Trabalho/LFA/Pratica/proj/csvtable/CSV/csv2.csv");
+        /*Table t1 = new Table("~/temp/eziql/examples/csv1.csv");
+        Table t2 = new Table("~/temp/eziql/examples/csv2.csv");
         
-        System.out.println("\n(Tabela t1)");
+        System.out.println("\n(Table t1)");
         t1.printTable();
 
-        System.out.println("\n(Tabela t2)");
+        System.out.println("\n(Table t2)");
         t2.printTable();
     
         List<String> col = t1.getColumn(0, true);
         
 
         Table t3;
-        System.out.println("\n(Tabela t2 - t1)");
+        System.out.println("\n(Table t2 - t1)");
         t3 = t2.subTable(t2);
         t3.printTable();
 
-        System.out.println("\n(Tabela t2 == t2)");
+        System.out.println("\n(Table t2 == t2)");
         System.out.println(t2.isEqual(t2));
 
-        System.out.println("\n(Maximo da coluna 0 da coluna 1)");
+        System.out.println("\n(Maximum of column 0 and column 1)");
         System.out.println(t1.max(t1.getColumn(0, true)));
 
-        System.out.println("\n(Mínimo da coluna 0 da tabela 1)");
+        System.out.println("\n(Minimum of column 0 and column 1)");
         System.out.println(t1.min(t1.getColumn(0, true)));
 
-        System.out.println("\n(Soma da coluna 0 da tabela 1)");
+        System.out.println("\n(Sum of column 0 and 1)");
         System.out.println(t1.sum(t1.getColumn(0, false)));
 
-        System.out.println("\n(Média da coluna 0 da tabela 1)");
+        System.out.println("\n(Average of column 0 and 1)");
         System.out.println(t1.avg(t1.getColumn(0, false)));
 
         Table tAux = new Table(t1);
 
-        System.out.println("\nTabela t1 ordenada ascendente");
+        System.out.println("\nTable t1 ascending sort");
         t1.sort();
         t1.printTable();
 
-        System.out.println("\nTabela t1 ordenada descendente");
+        System.out.println("\nTable t1 descending sort");
         tAux.sortDesc();
         tAux.printTable();*/
     }
 
     /**
-    * Função que irá fazer o parse do ficheiro dado
-    * por argumento.
+    * Function that will parse the given file as an argument.
     *
-    * <p><dl><dt><b>Precondition:</b></dt>
-    *    <dd>{@code path != null}</dd>
-    * </dl></p>
+    * Precondition:
+    * path != null
     *
-    * @param path Caminho absoluto para o ficheiro CSV
-    * @return {@code List<List<String>> } Lista 
-    * com os dados retirados do ficheiro
+    *
+    * path Absolute path to the CSV file
+    * List<List<String>> List with data taken from the file
     */
     public List<List<String>> readCSV(String path)
     {
@@ -184,16 +162,15 @@ public class Table
     }
 
     /**
-    * Modificar um valor específico da tabela.
+    * Change a specific value in the table
     *
-    * <p><dl><dt><b>Precondition:</b></dt>
-    *    <dd>{@code row >= 0 && row < numRows()}</dd>
-    *    <dd>{@code col >= 0 && col < numColumns()}</dd>
-    * </dl></p>
-    *
-    * @param row Linha da Tabela
-    * @param col Coluna da Tabela
-    * @param value O novo valor
+    * Precondition:
+    *   row >= 0 && row < numRows()
+    *   col >= 0 && col < numColumns()
+    * 
+    * row -- Row
+    * col -- Column
+    * value -- The new value
     */
     public void setValue(int row, int col, String value)
     {
@@ -204,16 +181,15 @@ public class Table
     }
     
     /**
-    * Obter um valor específico da tabela.
+    * Get a specific value from the table.
     *
-    * <p><dl><dt><b>Precondition:</b></dt>
-    *    <dd>{@code row >= 0 && row < numRows()}</dd>
-    *    <dd>{@code col >= 0 && col < numColumns()}</dd>
-    * </dl></p>
+    * Precondition:
+    *   row >= 0 && row < numRows()
+    *   col >= 0 && col < numColumns()
     *
-    * @param row Linha da Tabela
-    * @param col Coluna da Tabela
-    * @return {@code String} O valor, dado a linha e a coluna 
+    * row -- Row
+    * col -- Column
+    * String -- The value, given the row and column
     */
     public String getValue(int row, int col)
     {
@@ -224,14 +200,12 @@ public class Table
     }
 
     /**
-    * Adiciona uma linha no fim da Tabela, dado uma
-    * lista com o conteúdo a ser guardado
+    * Adds a row at the end of the Table, and gives a listing of the contents to be saved
     *
-    * <p><dl><dt><b>Precondition:</b></dt>
-    *    <dd>{@code l.size() > 0 && l.size() <= numColumns()}</dd>
-    * </dl></p>
+    * Precondition:
+    *   l.size() > 0 && l.size() <= numColumns()
     *
-    * @param l Lista com o conteúdo a ser colocado.
+    * l -- List with the content to be placed.
     */
     public void addRow(List<String> l)
     {
@@ -249,17 +223,17 @@ public class Table
     }
 
     /**
-    * Adiciona uma linha no índice da linha dado, 
-    * dado uma lista com o conteúdo a ser guardado.
-    * Não substitui a linha anterior, esta passa para baixo.  
+    * Adds a row to the given row index, 
+    * gives a list with the contents to be saved.
+    * It does not replace the previous line, it places it down.
     *
-    * <p><dl><dt><b>Precondition:</b></dt>
-    *    <dd>{@code l.size() > 0 && l.size() <= numColumns()}</dd>
-    *    <dd>{@code idx > 0 && idx < numRows()}</dd>
-    * </dl></p>
+    * Precondition:
+    *   l.size() > 0 && l.size() <= numColumns()
+    *   idx > 0 && idx < numRows()
     *
-    * @param idx Índice da linha
-    * @param l Lista com o conteúdo a ser colocado.
+    *
+    * idx -- Line index
+    * l -- List with the content to be placed.
     */
     public void addRow(int idx, List<String> l)
     {
@@ -279,13 +253,12 @@ public class Table
     }
 
     /**
-    * Limpa a linha dada.
+    * Clears the given line.
     *
-    * <p><dl><dt><b>Precondition:</b></dt>
-    *    <dd>{@code idx >= 0 && idx < numRows()}</dd>
-    * </dl></p>
+    * Precondition:
+    *   idx >= 0 && idx < numRows()
     *
-    * @param idx Índice da linha
+    * idx -- Line index
     */
     public void clearRow(int idx)
     {
@@ -296,13 +269,12 @@ public class Table
     }
 
     /**
-    * Apaga a linha dada.
+    * Deletes the given line.   
     *
-    * <p><dl><dt><b>Precondition:</b></dt>
-    *    <dd>{@code idx >= 0 && idx < numRows()}</dd>
-    * </dl></p>
+    * Precondition:
+    *   idx >= 0 && idx < numRows()
     *
-    * @param idx Índice da linha
+    * idx -- Line index
     */
     public void removeRow(int idx)
     {
@@ -311,15 +283,13 @@ public class Table
         table.remove(idx);
     }
 
-    /**
-    * Adiciona uma coluna à direita da última existente 
-    * dado uma lista com o conteúdo a ser guardado.
+   /**
+    * Adds a column to the right of the last one of the already existing given list with the content to be saved.
     *
-    * <p><dl><dt><b>Precondition:</b></dt>
-    *    <dd>{@code l.size() > 0}</dd>
-    * </dl></p>
+    * Precondition:
+    *   l.size() > 0
     *
-    * @param l Lista com o conteúdo a ser colocado.
+    * l -- List with the content to be placed
     */
     public void addCol(List<String> l)
     {
@@ -353,16 +323,15 @@ public class Table
     
 
     /**
-    * Adiciona uma coluna no índice da coluna dado, 
-    * dado uma lista com o conteúdo a ser guardado.
-    * Não substitui a coluna anterior, esta passa para baixo.  
+    * Adds a column to the given column index, 
+    * gives a list with the contents to be stored.
+    * It does not replace the previous column, it moves it down. 
+    * 
+    * Precondition:
+    *   idx >= 0 && idx < numColumns()
     *
-    * <p><dl><dt><b>Precondition:</b></dt>
-    *    <dd>{@code idx >= 0 && idx < numColumns()}</dd>
-    * </dl></p>
-    *
-    * @param idx Índice da coluna
-    * @param l Lista com o conteúdo a ser colocado.
+    * idx -- Column index
+    * l -- List with the contents to be placed.
     */
     public void addCol(int idx, List<String> l)
     {
@@ -394,13 +363,12 @@ public class Table
     }
 
     /**
-    * Apaga uma coluna.
+    * Deletes a column.
     *
-    * <p><dl><dt><b>Precondition:</b></dt>
-    *    <dd>{@code idx >= 0 && idx < numColumns()}</dd>
-    * </dl></p>
+    * Precondition:
+    * idx >= 0 && idx < numColumns()
     *
-    * @param idx Índice da coluna
+    * idx Column index
     */
     public void removeCol(int idx)
     {
@@ -414,15 +382,14 @@ public class Table
     }
 
     /**
-    * Limpa um campo da tabela.
+    * Clears a field from the table.
     *
-    * <p><dl><dt><b>Precondition:</b></dt>
-    *    <dd>{@code row >= 0 && row < numRows()}</dd>
-    *    <dd>{@code col >= 0 && col < numColumns()}</dd>
-    * </dl></p>
+    * Precondition:
+    * row >= 0 && row < numRows()
+    * col >= 0 && col < numColumns()
     *
-    * @param row Índice da linha
-    * @param col Índice da coluna
+    * row Row index
+    * col Column index
     */
     public void clearField(int row, int col)
     {
@@ -433,13 +400,12 @@ public class Table
     }
 
     /**
-    * Obtém o número de colunas da tabela
+    * Gets the number of columns in the table
     *
-    * <p><dl><dt><b>Precondition:</b></dt>
-    *    <dd>{@code table != null}</dd>
-    * </dl></p>
+    * Precondition:
+    * table != null
     *
-    * @return Número de colunas da tabela.
+    * Number of columns in table.
     */
     public int numColumns()
     {
@@ -449,13 +415,13 @@ public class Table
     }
 
     /**
-    * Obtém o número de linhas da tabela
+    * Gets the number of rows from the table
     *
-    * <p><dl><dt><b>Precondition:</b></dt>
-    *    <dd>{@code table != null}</dd>
-    * </dl></p>
+    * Precondition:
+    * table != null
     *
-    * @return Número de linhas da tabela.
+    *
+    * Number of table rows.
     */
     public int numRows()
     {
@@ -465,14 +431,14 @@ public class Table
     }
 
     /**
-    * Obtém uma coluna dada, sem valores repetidos.
+    * Gets a given column with no repeated values.
     *
-    * <p><dl><dt><b>Precondition:</b></dt>
-    *    <dd>{@code idx >= 0 && idx < numColumns()}</dd>
-    * </dl></p>
+    * Precondition:
+    * idx >= 0 && idx < numColumns()
     *
-    * @param idx Índice da coluna
-    * @return A coluna sem valores repetidos
+    *
+    * idx Column index
+    * The column with no repeated values
     */
     public List<String> getUnique(int idx)
     {
@@ -489,16 +455,15 @@ public class Table
     }
 
     /**
-    * Obter uma coluna dada, com ou sem o
-    * header (primeira linha).
+    * Get a given column, with or without the
+    * header (first line).
     *
-    * <p><dl><dt><b>Precondition:</b></dt>
-    *    <dd>{@code idx >= 0 && idx < numColumns()}</dd>
-    * </dl></p>
+    * Precondition:
+    * idx >= 0 && idx < numColumns()
     *
-    * @param idx Índice da coluna
-    * @param header Com (true) ou sem (false) o header
-    * @return A coluna dada com ou sem o header
+    * idx column index
+    * header With (true) or without (false) the header
+    * The given column with or without the header
     */
     public List<String> getColumn(int idx, boolean header)
     {
@@ -511,14 +476,13 @@ public class Table
     }
 
     /**
-    * Obter uma linha dada um índice.
+    * Get a line given an index.
     *
-    * <p><dl><dt><b>Precondition:</b></dt>
-    *    <dd>{@code idx >= 0 && idx <= numRows()}</dd>
-    * </dl></p>
+    * Precondition:
+    * idx >= 0 && idx <= numRows()
     *
-    * @param idx Índice da linha
-    * @return A linha no índice dado
+    * idx Row index
+    * The row at the given index
     */
     public List<String> getRow(int idx)
     {
@@ -528,14 +492,13 @@ public class Table
     }
 
     /**
-    * Obtém o índice da coluna dado o valor do header.
+    * Gets the column index given the header value
     *
-    * <p><dl><dt><b>Precondition:</b></dt>
-    *    <dd>{@code s != null}</dd>
-    * </dl></p>
+    * Precondition:
+    * s != null
     *
-    * @param s Valor a ser procurado
-    * @return Índice da coluna onde está o valor
+    * s Value to be searched for
+    * Index of the column where the value is
     */
     public int getHeaderIndex(String s)
     {
@@ -549,16 +512,16 @@ public class Table
     }
 
     /**
-    * Obter uma sub-tabela entre duas colunas
+    * Get a sub-table between two columns
     *
-    * <p><dl><dt><b>Precondition:</b></dt>
-    *    <dd>{@code startIdx >= 0 && startIdx <= endIdx}</dd>
-    *    <dd>{@code endIdx < numColumns()}</dd>
-    * </dl></p>
+    * Precondition:
+    * startIdx >= 0 && startIdx <= endIdx
+    * endIdx < numColumns()
     *
-    * @param startIdx Índice inicial
-    * @param endIdx Índice final (inclusive)
-    * @return A sub-tabela
+    * startIdx start index
+    * endIdx End index (included)
+    * 
+    * Return: The sub-table
     */
     public List<List<String>> subTableCol(int startIdx, int endIdx)
     {
@@ -573,15 +536,14 @@ public class Table
     }
 
     /**
-    * Obter uma sub-tabela a partir de uma coluna
+    * Get a sub-table from a column
     *
-    * <p><dl><dt><b>Precondition:</b></dt>
-    *    <dd>{@code table != null}</dd>
-    *    <dd>{@code startIdx >= 0}</dd>
-    * </dl></p>
+    * Precondition:
+    * table != null
+    * startIdx >= 0
     *
-    * @param startIdx Índice inicial
-    * @return A sub-tabela
+    * startIdx -- Initial index
+    * return -- The sub-table
     */
     public List<List<String>> subTableCol(int startIdx)
     {
@@ -596,16 +558,15 @@ public class Table
     }
 
     /**
-    * Obter uma sub-tabela entre duas linhas
+    * Get a sub-table between two rows
     *
-    * <p><dl><dt><b>Precondition:</b></dt>
-    *    <dd>{@code startIdx >= 0 && startIdx <= endIdx}</dd>
-    *    <dd>{@code endIdx < numRows()}</dd>
-    * </dl></p>
+    * Precondition:
+    * startIdx >= 0 && startIdx <= endIdx
+    * endIdx < numRows()
     *
-    * @param startIdx Índice inicial
-    * @param endIdx Índice final (inclusive)
-    * @return A sub-tabela
+    * startIdx -- Beginning index
+    * endIdx -- End index (inclusive)
+    * return -- The sub-table
     */
     public List<List<String>> subTableRow(int startIdx, int endIdx)
     {
@@ -620,15 +581,15 @@ public class Table
     }
 
     /**
-    * Obter uma sub-tabela a partir de uma linha
+    * Get a sub-table from a line
     *
-    * <p><dl><dt><b>Precondition:</b></dt>
-    *    <dd>{@code startIdx >= 0 && startIdx < numRows()}</dd>
-    *    <dd>{@code table != null}</dd>
-    * </dl></p>
+    * Precondition:
+    * startIdx >= 0 && startIdx < numRows()
+    * table != null
     *
-    * @param startIdx Índice inicial
-    * @return A sub-tabela
+    *
+    * startIdx -- Initial index
+    * return -- The sub-table
     */
     public List<List<String>> subTableRow(int startIdx)
     {
@@ -643,15 +604,14 @@ public class Table
     }
 
     /**
-    * Obter uma tabela transposta, isto é, trocar
-    * as linhas com as colunas
+    * Get a transposed table, that is, swap
+    * the rows with the columns
     *
-    * <p><dl><dt><b>Precondition:</b></dt>
-    *    <dd>{@code list != null}</dd>
-    * </dl></p>
+    * Precondition:
+    * list != null
     *
-    * @param list A tabela
-    * @return A tabela já modificada
+    * list -- The table
+    * return -- The already modified table
     */
     public List<List<String>> switchColRow(List<List<String>> list)
     {
@@ -668,15 +628,15 @@ public class Table
     }
 
     /**
-    * Soma entre duas tabelas
-    * (junta as colunas das duas tabelas)
+    * Sum between two tables
+    * (adds the columns of the two tables together)
     *
-    * <p><dl><dt><b>Precondition:</b></dt>
-    *    <dd>{@code table != null && t != null}</dd>
-    * </dl></p>
+    * Precondition: 
+    * table != null && t != null 
+    *  
     *
-    * @param t A tabela a ser somada
-    * @return Uma tabela resultante da operação
+    * t The table to be added
+    * return --A table resulting from the operation
     */
     public Table addTable(Table t)
     {
@@ -690,15 +650,15 @@ public class Table
     }
 
     /**
-    * Subtração entre duas tabelas
-    * (remove colunas caso o header seja igual)
+    * Subtraction between two tables
+    * (removes columns if header is equal)
     *
-    * <p><dl><dt><b>Precondition:</b></dt>
-    *    <dd>{@code table != null && t != null}</dd>
-    * </dl></p>
+    * Precondition: 
+    * table != null && t != null 
+    *  
     *
-    * @param t A tabela a ser subtraída
-    * @return Uma tabela resultante da operação
+    * t The table to be subtracted
+    * return --A table resulting from the operation
     */
     public Table subTable(Table t)
     {
@@ -716,7 +676,7 @@ public class Table
     }
 
     /**
-    * Ordena as linhas da Tabela (ascendente)
+    * Sorts the rows of the table (ascending)
     *
     */
     public void sort()
@@ -726,7 +686,7 @@ public class Table
     }
 
     /**
-    * Ordena as linhas da Tabela (descendente)
+    * Sorts the rows of the table (descending)
     */
     public void sortDesc()
     {
@@ -737,14 +697,14 @@ public class Table
     }
 
     /**
-    * Verifica se duas tabelas são iguais
+    * Checks if two tables are equal
     *
-    * <p><dl><dt><b>Precondition:</b></dt>
-    *    <dd>{@code t != null}</dd>
-    * </dl></p>
+    * Precondition: 
+    * t != null 
+    *  
     *
-    * @param t Tabela a ser comparada
-    * @return Resultado (verdadeiro/falso)
+    * t Table to be compared
+    * return --Result (true/false)
     */
     public boolean isEqual(Table t)
     {
@@ -754,14 +714,14 @@ public class Table
     }
 
     /**
-    * Exporta a tabela para um ficheiro CSV a ser criado
-    * na pasta onde está este ficheiro
+    * Exports the table to a CSV file to be created
+    * in the folder where this file is located
     *
-    * <p><dl><dt><b>Precondition:</b></dt>
-    *    <dd>{@code filename != null}</dd>
-    * </dl></p>
+    * Precondition: 
+    * filename != null 
+    *  
     *
-    * @param filename Nome do ficheiro CSV
+    * filename CSV file name
     */
     public void export(String filename)
     {
@@ -790,7 +750,7 @@ public class Table
     }
 
     /**
-    * Imprime a tabela
+    * Prints the table
     */
     public void printTable()
     {
@@ -800,13 +760,13 @@ public class Table
     }
 
     /**
-    * Imprime as primeiras "n" linhas
+    * Prints the first "n" lines
     *
-    * <p><dl><dt><b>Precondition:</b></dt>
-    *    <dd>{@code num > 0 && num < numRows()}</dd>
-    * </dl></p>
+    * Precondition: 
+    * num > 0 && num < numRows() 
+    *  
     *
-    * @param num Número de linhas
+    * num Number of rows
     */
     public void head(int num)
     {
@@ -818,13 +778,13 @@ public class Table
     }
 
     /**
-    * Imprime as últimas "n" linhas
+    * Prints the last "n" lines
     *
-    * <p><dl><dt><b>Precondition:</b></dt>
-    *    <dd>{@code num >= 0 && num < numRows()}</dd>
-    * </dl></p>
+    * Precondition: 
+    * num >= 0 && num < numRows() 
+    *  
     *
-    * @param num Número de linhas
+    * num Number of rows
     */
     public void tail(int num)
     {
@@ -836,14 +796,14 @@ public class Table
     }
 
     /**
-    * Obtém o valor máximo de uma lista (linha / coluna)
+    * Gets the maximum value of a list (row / column)
     *
-    * <p><dl><dt><b>Precondition:</b></dt>
-    *    <dd>{@code list.size() > 0}</dd>
-    * </dl></p>
+    * Precondition: 
+    * list.size() > 0 
+    *  
     *
-    * @param csv String
-    * @return O valor máximo da lista
+    * csv String
+    * return --The maximum value of the list
     */
     public Double max(String csv)
     {
@@ -865,14 +825,14 @@ public class Table
     }
 
     /**
-    * Obtém o valor mínimo de uma lista (linha / coluna)
+    * Gets the minimum value from a list (row / column)
     *
-    * <p><dl><dt><b>Precondition:</b></dt>
-    *    <dd>{@code list.size() > 0}</dd>
-    * </dl></p>
+    * Precondition: 
+    * list.size() > 0 
+    *  
     *
-    * @param csv String
-    * @return O valor mínimo da lista
+    * csv String
+    * return --The minimum value of the list
     */
     public Double min(String csv)
     {
@@ -894,14 +854,14 @@ public class Table
     }
 
     /**
-    * Obtém o valor da soma de uma lista (linha / coluna)
+    * Gets the sum value of a list (row / column)
     *
-    * <p><dl><dt><b>Precondition:</b></dt>
-    *    <dd>{@code list.size() > 0}</dd>
-    * </dl></p>
+    * Precondition: 
+    * list.size() > 0 
+    *  
     *
-    * @param csv String
-    * @return O valor da soma da lista
+    * csv -- String
+    * return --the sum value of the list
     */
     public Double sum(String csv)
     {
@@ -921,14 +881,14 @@ public class Table
     }
 
     /**
-    * Obtém o valor da média de uma lista (linha / coluna)
+    * Gets the average value of a list (row / column)
     *
-    * <p><dl><dt><b>Precondition:</b></dt>
-    *    <dd>{@code list.size() > 0}</dd>
-    * </dl></p>
+    * Precondition: 
+    * list.size() > 0 
+    *  
     *
-    * @param csv String
-    * @return O valor da média da lista
+    * csv -- String
+    * return --The average value of the list
     */
     public Double avg(String csv)
     {

@@ -7,9 +7,6 @@ import org.antlr.v4.runtime.ParserRuleContext;
 /**
  * Error handling module for uniform error handling within ANTLR4
  *
- * @author  Miguel Oliveira e Silva (mos@ua.pt)
- * @version 2.0
- * @since   2013-02-20
  */
 public class ErrorHandling
 {
@@ -25,11 +22,9 @@ public class ErrorHandling
    /**
     * Log a new message.
     *
-    * <p><dl><dt><b>Precondition:</b></dt>
-    *    <dd>{@code text != null && text.length() > 0}</dd>
-    * </dl></p>
+    * text != null && text.length() > 0
     *
-    * @param text message
+    * text message
     */
    public static void printInfo(String text)
    {
@@ -41,11 +36,9 @@ public class ErrorHandling
    /**
     * Log a new warning.
     *
-    * <p><dl><dt><b>Precondition:</b></dt>
-    *    <dd>{@code text != null && text.length() > 0}</dd>
-    * </dl></p>
+    * text != null && text.length() > 0
     *
-    * @param text message
+    * text message
     */
    public static void printWarning(String text)
    {
@@ -58,11 +51,9 @@ public class ErrorHandling
    /**
     * Log a new error.
     *
-    * <p><dl><dt><b>Precondition:</b></dt>
-    *    <dd>{@code text != null && text.length() > 0}</dd>
-    * </dl></p>
+    * text != null && text.length() > 0
     *
-    * @param text message
+    * text message
     */
    public static void printError(String text)
    {
@@ -75,13 +66,11 @@ public class ErrorHandling
    /**
     * Log a new message.
     *
-    * <p><dl><dt><b>Precondition:</b></dt>
-    *    <dd>{@code line > 0}</dd>
-    *    <dd>{@code text != null && text.length() > 0}</dd>
-    * </dl></p>
+    * line > 0
+    * text != null && text.length() > 0
     *
-    * @param line line number
-    * @param text message
+    * line line number
+    * text message
     */
    public static void printInfo(int line, String text)
    {
@@ -94,13 +83,11 @@ public class ErrorHandling
    /**
     * Log a new warning.
     *
-    * <p><dl><dt><b>Precondition:</b></dt>
-    *    <dd>{@code line > 0}</dd>
-    *    <dd>{@code text != null && text.length() > 0}</dd>
-    * </dl></p>
+    * line > 0
+    * text != null && text.length() > 0
     *
-    * @param line line number
-    * @param text message
+    * line line number
+    * text message
     */
    public static void printWarning(int line, String text)
    {
@@ -114,13 +101,11 @@ public class ErrorHandling
    /**
     * Log a new error.
     *
-    * <p><dl><dt><b>Precondition:</b></dt>
-    *    <dd>{@code line > 0}</dd>
-    *    <dd>{@code text != null && text.length() > 0}</dd>
-    * </dl></p>
+    * line > 0
+    * text != null && text.length() > 0
     *
-    * @param line line number
-    * @param text message
+    * line line number
+    * text message
     */
    public static void printError(int line, String text)
    {
@@ -134,13 +119,11 @@ public class ErrorHandling
    /**
     * Log a new message.
     *
-    * <p><dl><dt><b>Precondition:</b></dt>
-    *    <dd>{@code ctx != null}</dd>
-    *    <dd>{@code text != null && text.length() > 0}</dd>
-    * </dl></p>
+    * ctx != null
+    * text != null && text.length() > 0
     *
-    * @param ctx parser tree node reference
-    * @param text message
+    * ctx parser tree node reference
+    * text message
     */
    public static void printInfo(ParserRuleContext ctx, String text)
    {
@@ -153,13 +136,11 @@ public class ErrorHandling
    /**
     * Log a new warning.
     *
-    * <p><dl><dt><b>Precondition:</b></dt>
-    *    <dd>{@code ctx != null}</dd>
-    *    <dd>{@code text != null && text.length() > 0}</dd>
-    * </dl></p>
+    * ctx != null
+    * text != null && text.length() > 0
     *
-    * @param ctx parser tree node reference
-    * @param text message
+    * ctx parser tree node reference
+    * text message
     */
    public static void printWarning(ParserRuleContext ctx, String text)
    {
@@ -173,13 +154,11 @@ public class ErrorHandling
    /**
     * Log a new error.
     *
-    * <p><dl><dt><b>Precondition:</b></dt>
-    *    <dd>{@code ctx != null}</dd>
-    *    <dd>{@code text != null && text.length() > 0}</dd>
-    * </dl></p>
+    * ctx != null
+    * text != null && text.length() > 0
     *
-    * @param ctx parser tree node reference
-    * @param text message
+    * parser tree node reference
+    * text message
     */
    public static void printError(ParserRuleContext ctx, String text)
    {
@@ -191,7 +170,7 @@ public class ErrorHandling
    }
 
    /**
-    * Regist a new error.
+    * Register a new error.
     *
     */
    public static void registerError() {
@@ -201,7 +180,7 @@ public class ErrorHandling
    /**
     * Exists at least one error?
     *
-    * @return {@code boolean} true, in the presence of a registered error
+    * boolean -- true, in the presence of a registered error
     */
    public static boolean error()
    {
@@ -211,7 +190,7 @@ public class ErrorHandling
    /**
     * Number of registered errors.
     *
-    * @return {@code int} number of errors
+    * int -- number of errors
     */
    public static int errorCount()
    {
@@ -221,7 +200,7 @@ public class ErrorHandling
    /**
     * Number of registered warnings.
     *
-    * @return {@code int} number of warnings
+    * int -- number of warnings
     */
    public static int warningCount()
    {
@@ -231,11 +210,9 @@ public class ErrorHandling
    /**
     * Redirect log to a new stream file
     *
-    * <p><dl><dt><b>Precondition:</b></dt>
-    *    <dd>{@code logFile != null}</dd>
-    * </dl></p>
+    * logFile != null
     *
-    * @param logFile stream
+    * logFile stream
     */
    public static void redirectLogFile(PrintStream logFile)
    {
@@ -245,7 +222,7 @@ public class ErrorHandling
    }
 
    /**
-    * Reset regist of all errors and warnings.
+    * Reset register of all errors and warnings.
     */
    public static void reset()
    {
