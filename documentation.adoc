@@ -1,5 +1,355 @@
-# EZIQL -- table handling programming language
+= EZIQL -- table handling programming language
 
-## Introduction
+== Contents
+    * <<EN,English Version>>
+    * <<introduction-en,Introduction>>
+    * <<description-en,Language Description>>
+    * <<impl-en,Implementation and Architecture>>
+    * <<conclusion-en,Conclusion>>
+    * <<RU, Русская Версия>>
+    * <<introduction-ru,Введение>>
+    * <<description-ru,Описание Языка>>
+    * <<impl-ru,Реализация и архитектура>>
+    * <<conclusion-ru,Вывод>>
+[#EN]
+[#introduction-en]
 
-## Commands                      
+== Introduction
+
+In the scope of the Formal Languages course it was proposed to do a project in order to consolidate and put into practice the knowledge acquired during the semester. Among the various options of projects we decided to choose a proposal indicated by the teachers in the project statement: a language for manipulating tables, whose final goal is to generate code in Java. So we made table handling language, and in fact that's what we do internally: manipulate tables. However, our language is not only about manipulating tables, and we decided to add other operations, available in all programming languages. More details about the implementation and operation of this language can be seen later in this report.
+
+[#description-en]
+== Language Description
+
+The language is intended not only to handle operations with tables but also the basic operations of a programming language, such as arithmetic operations, declaration of variables, a print operation to the console, and even a condition expression. Table operations are done in a somewhat similar way to SQL commands. The statement delimiter chosen is the semicolon ';'. It is used to facilitate separation of statements.
+
+=== Data Types
+
+Our language has the following data types:
+    - int +
+    - double +
+    - string +
+    - boolean +
+    - table
+
+=== Declaration
+
+Declaring variables is done by declaring the data type followed by the variable name. The variable respects the following lexer rule:
+
+* ID : [ a-zA-Za-9\_]+
+
+=== Assignment
+
+Assignment is done only after the variable has been declared. The value of the assignment must respect the entered data type.
+
+=== Print command
+
+The print command is used to return the output to the console of what is happening in the course of the program. You can print arithmetic expressions, Boolean expressions, and variables (if they are declared).
+
+[source,C++]
+----
+print " I need to have at least 10 for this project ";
+print 2+3;
+print varDummy;
+----
+
+=== If statement
+
+The if statement follows the normal pattern.  A condition is evaluated, if the condition is met, there follows a (theoretically infinite) list of if statements and finally an else statement.
+
+[source,C++]
+----
+if(condition) {
+    statementList ;
+}else  if(otherCondition){
+    statementList;
+}  else {
+    statementList ;
+}
+----
+
+=== Table expressions
+The table manipulation expressions are accompanied by a prefix that identifies them.
+
+[source,C++]
+----
+table(COMMAND)
+----
+
+Commands available for manipulating tables:
+- *read FILE to VAR* -reads a file and initializes the VAR variable; +
+- *add row STRING to VAR* - inserts a row incsv format in the table of the variable VAR; +
+- *add row STRING at INTEGER to VAR* - inserts a row in the INTEGER index of the table of the variable VAR; +
+- *get value(ROW,COL) from VAR* - returns the value of the row by the column of the table associated with the variable VAR; +
+- *insert into VAR value=EXPR at cell(ROW,COL)* - inserts into a table cell the value of an expression; +
+- *clear row at INTEGER from VAR* - clears the data from a specific row of the table associated with the VAR variable; +
+- *remove row at INTEGER from VAR* - delete a specific row in a table; +
+- *add column STRING to VAR* - inserts a column in csv format in the table associated with variable VAR; +
+- *add column STRING at INTEGER to VAR* - inserts a column in the index INTEGER of the table associated with variable VAR; +
+- *remove column at INTEGER from VAR* - delete a specific column in a table; +
+- *clear field(ROW,COL) from VAR* - clear a specific cell from the table associated with the variable VAR; +
+- *get row size from VAR* - return the number of rows from a table; +
+- *get column size from VAR* - returns the number of columns of a table; +
+- *get unique column from VAR at INTEGER* - returns a specific column, without repeating elements, from a table; +
+- *get column from VAR at INTEGER header= boolean* - returns a specific column from a table, with or without header; +
+- *get row from VAR at INTEGER* - returns a specific row from a table; +
+- *get index from VAR of value=STRING* - returns the table index corresponding to a STRING; +
+- *col-subtable from VAR start=INTEGER end=INTEGER* - returns a sub-table between the columns start=INTEGER and end=INTEGER of a table associated with the variable VAR; +
+- *col-subtable from VAR start=INTEGER* - returns a sub-table between the columnstart=INTEGER and end=INTEGER of a table associated with the variable VAR; +
+- *row-subtable from VAR start=INTEGER end=INTEGER* - returns a sub-table between the rows start=INTEGER and end=INTEGER of a table associated with the variable VAR. +
+- *row-subtable from VAR start=INTEGER* - returns a sub-table between the linea start=INTEGER and to the end, from a table associated with the variable VAR; +
+- *add VAR with VAR* - adds two tables; +
+- *subtract VAR with VAR* - subtract two tables; +
+- *sort VAR* - sort in ascending order of a table associated with the variable VAR; +
+- *sort descent VAR* - sort in descending order on a table associated with the variable VAR; +
+- *VAR equals VAR* - checks if two tables are equal; +
+- *export VAR to FILE* - export a table associated with a VAR variable to a file; +
+- *print VAR* - print a table; +
+- *print first INTEGER lines of VAR* - print the first INTEGER lines of a table; +
+- *print last INTEGER lines of VAR* - print the last INTEGER lines of a table;
+
+=== Comments
+
+The language also supports comments. 
+
+[source,C++]
+----
+// single line comment
+
+/* Multi
+ * line
+ * comment
+ */
+----
+
+[#impl-en]
+== Implementation and Architecture
+
+We will now proceed to the presentation of our language implementation and architecture. Here we gather information about how we thought about and implemented the language and the role each file plays in the execution. We advise (as always) for  you to preview the code for a better understanding of our approach to the problem.
+
+=== Table Manipulation - Table.java file
+
+Before creating the language itself, the first step was actually to create a Java class that would allow us to manipulate tables. In this class we created several functions that allow us to create, manipulate and get information about tables from a data structure (ArrayList). Internally we consider a table to be a list of lists (ArrayList from Array-List). Given the ease of understanding and implementing our data structure, we found this the best way to do it. From this class it becomes possible to create a table from a CSV (Comma Separated Values) file, which is parsed and inserted into the data structure mentioned above. This is the only way to create a table taking into account content from the outside.  It is also possible to create a table from an existing table, derived from a previous operation. This class is fully documented, having all the information about the functions implemented in it, what is required for the functions to run correctly, what they return, and uses defensive programming in order to deal with possible errors (exceptions and assertions). The implemented operations are as follows: +
+- Creation of tables; +
+    -- From a CSV (Comma Separated Values) file; +
+    -- From another Table already created (object or via data structure); +
+- Modify, alter, get and clear table fields; +
+- Add, remove, get and clear rows/columns; +
+- Get number of rows/columns; +
+- Get column with unique values (not repeated); +
+- Get index based on the header; +
+- Get sub-tables between rows or columns; +
+- Sum/subtract tables; +
+- Sorting (ascending / descending) table; +
+- Comparison of tables; +
+- Export to CSV file (Comma Separated Values); +
+- Printing the table on the terminal; +
+- Printing the first / last 'n' lines; +
+- Get maximum / minimum value, sum, average of a line or column; +
+These operations are central to the overall functioning of our language, after the translation to Java. This was the first goal, so that we could then create the language on top of these operations, and with the correct syntax.
+
+=== Grammar - TableHandler.g4 file
+
+After creating the file that creates and manipulates the tables, it's time to deal with the creation and interpretation of our language.  As said above in the "Language Description", we chose to follow a "SQL" approach, and as such, this file is responsible for token recognition, as well as lexical and syntax analysis of our language. The operation and interpretation of the language was done as described earlier in the "Language Description" chapter.
+
+=== Compiler - Compiler.java file
+
+This file is our compiler: a Listener responsible for registering the variables already used in a data structure (HashMap), and for generating code in Java, using the String Template tool, from the same creator of ANTLR4. If all went well, this file prints on the terminal the final code brought to Java, and creates another file, which we called "TableOutput.java", which is the final result of the translation. This file is now ready to be compiled and executed.
+
+=== Variable class - Variable.java file
+
+As we use several data types in our language, it is necessary to specify this data (variable type and name) in the HashMap together with its value, hence the need for an extra class that would be able to store not only the variable name but also its data type, for its distinction and insertion in the HashMap.
+
+=== Error Handling
+
+For error handling, we thought it best to use this module instead of ConsoleErrorListener, ANTLR4's native error listener, so that we can customize our error messages, as well as show the user where the errors are, so that he can debug easily.
+
+=== Semantic Analysis - THSemanticCheck.java file 
+
+This file is responsible for the semantic analysis checking errors in the written code, and if detected, printing the type of error, and its location using the Error Handling module discussed above, in order to inform the user.
+
+=== Language execution - TableHandlerRun.java file
+
+This file is the main file, which will handle the analysis needed to run the code translator between the source language - TableHandler, and the target language - Java.
+A different name has been put on the file so that it is not possible to change this code via the antlr-main tool.
+
+=== Other files
+In order to group all the templates used by us in the generation of Java code, we created a "templates.stg" file. We also included a CSV file "example.csv", and two example files in our  language "example.txt "and "example1.txt "to test the functionalities. Remember that at the end of the execution, if everything went well, the code translated into Java is printed on the terminal and a file "TableOutput.java" is generated, which contains the final code, ready to be compiled and executed.
+
+[#conclusion-en]
+== Conclusion
+
+We believe that the project objectives were met. This project made us use the concepts covered in class, and put into practice what was taught so that we could create our own programming language and actually know how a compiler works, even if it generates code in a language with which we are familiar. When faced with the possibility of being creative in the creation of the language we revealed somany difficulties, for example in the addition and subtraction of tables, as well as other operations in which some creativity was required on our part in the implementation of these operations, because there is no "correct" way to do it. We didn't want to be prejudiced by the initial work, so we decided to deliver now and have something decent to present rather than have something incomplete and prejudiced (as was the case with the initial work). We tried to implement all the concepts covered in class. Listeners, Visitors, code generation, grammar creation, use of callbacks, and a little Java programming thrown in. In conclusion, this project allowed us to acquire knowledge about technology allied to compilation and lexical, syntactic and semantic analysis of programming languages, combined with the objectives of the course unit.
+
+[#RU]                      
+[#introduction-ru]
+== Введение
+
+В рамках курса "ЯП" было предложено выполнить проект, чтобы закрепить и применить на практике знания, полученные в течение семестра. Среди различных вариантов проектов мы решили выбрать предложение, указанное преподавателями в задании для лабораторных работ: язык для работы с таблицами, конечной целью которого является генерация кода на Java. Итак, мы создали язык для работы с таблицами, и фактически это то, что мы делаем внутри: манипулируем таблицами. Однако наш язык - это не только манипулирование таблицами, и мы решили добавить другие операции, доступные во всех языках программирования. Более подробную информацию о реализации и работе этого языка можно увидеть далее в этом отчете.
+
+[#description-ru]
+== Описание языка
+
+Язык предназначен не только для работы с таблицами, но и с основными операциями языка программирования, такими как арифметические операции, объявление переменных, операция печати на консоль и даже выражение условия. Операции с таблицами выполняются примерно так же, как и команды SQL. В качестве разделителя утверждений выбрана точка с запятой ';'. Она используется для облегчения разделения операторов.
+
+
+=== Типы данных
+
+Наш язык имеет следующие типы данных:
+    - int +
+    - double +
+    - string +
+    - boolean +
+    - table
+
+=== Объявление
+
+Объявление переменных осуществляется путем объявления типа данных, за которым следует имя переменной. Переменная подчиняется следующему правилу лексера:
+
+* ID : [ a-zA-Za-9\_]+
+
+=== Присвоение
+
+Присваивание выполняется только после объявления переменной. Значение присваивания должно соответствовать введенному типу данных.
+
+=== Команда печати
+
+Команда print используется для вывода на консоль информации о том, что происходит в ходе работы программы. Вы можете печатать арифметические выражения, булевы выражения и переменные (если они объявлены).
+
+[source,C++]
+----
+print " I need to have at least 10 for this project ";
+print 2+3;
+print varDummy;
+----
+
+=== Оператор if
+
+Оператор if следует обычной схеме.  Оценивается условие, если условие выполняется, то следует (теоретически бесконечный) список операторов if и, наконец, оператор else.
+
+[source,C++]
+----
+if(condition) {
+    statementList ;
+}else  if(otherCondition){
+    statementList;
+}  else {
+    statementList ;
+}
+----
+
+
+=== Выражения для работы с таблицами
+Выражения для работы с таблицами сопровождаются префиксом, который их идентифицирует.
+
+[source,C++]
+----
+table(COMMAND)
+----
+
+Команды, доступные для манипулирования таблицами:
+- *read FILE to VAR* - считывает файл и инициализирует переменную VAR; +
+- *add row STRING to VAR* - вставляет строку в формате incsv в таблицу переменной VAR; +
+- *add row STRING at INTEGER to VAR* - вставляет строку в индекс INTEGER таблицы переменной VAR; +
+- *get value(ROW,COL) from VAR* - возвращает значение строки по столбцу таблицы, связанной с переменной VAR; +
+- *insert into VAR value=EXPR at cell(ROW,COL)* - вставляет в ячейку таблицы значение выражения; +
+- *clear row at INTEGER from VAR* - очищает данные из определенной строки таблицы, связанной с переменной VAR; +
+- *remove row at INTEGER from VAR* - удаляет определенную строку таблицы; +
+- *add column STRING to VAR* - вставляет столбец в формате csv в таблицу, связанную с переменной VAR; +
+- *add column STRING at INTEGER to VAR* - вставляет столбец в индекс INTEGER таблицы, связанной с переменной VAR; +
+- *remove column at INTEGER from VAR* - удаляет определенный столбец в таблице; +
+- *clear field(ROW,COL) from VAR* - очистить конкретную ячейку из таблицы, связанной с переменной VAR; +
+- *get row size from VAR* - вернуть количество строк в таблице; +
+- *get column size from VAR* - возвращает количество столбцов таблицы; +
+- *get unique column from VAR at INTEGER* - возвращает конкретный столбец, без повторяющихся элементов, из таблицы; +
+- *get column from VAR at INTEGER header= boolean* - возвращает определенный столбец из таблицы, с заголовком или без него; +
+- *get row from VAR at INTEGER* - возвращает определенную строку из таблицы; +
+- *get index from VAR of value=STRING* - возвращает индекс таблицы, соответствующий STRING; +
+- *col-subtable from VAR start=INTEGER end=INTEGER* - возвращает подтаблицу между столбцами start=INTEGER и end=INTEGER таблицы, связанной с переменной VAR; +
+- *col-subtable from VAR start=INTEGER* - возвращает подтаблицу между columnstart=INTEGER и end=INTEGER таблицы, связанной с переменной VAR; +
+- *row-subtable from VAR start=INTEGER end=INTEGER* - возвращает подтаблицу между строками start=INTEGER и end=INTEGER таблицы, связанной с переменной VAR. +
+- *row-subtable from VAR start=INTEGER* - возвращает подтаблицу между строкой start=INTEGER и до конца, из таблицы, связанной с переменной VAR; +
+- *add VAR with VAR* - добавляет две таблицы; +
+- *subtract VAR with VAR* - вычесть две таблицы; +
+- *sort VAR* - сортировка в порядке возрастания таблицы, связанной с переменной VAR; +
+- *sort descent VAR* - отсортировать в порядке убывания таблицу, связанную с переменной VAR; +
+- *VAR equals VAR* - проверяет, равны ли две таблицы; +
+- *export VAR to FILE* - экспортировать таблицу, связанную с переменной VAR, в файл; +
+- *print VAR* - вывести таблицу; +
+- *print first INTEGER lines of VAR* - вывести первые INTEGER строки таблицы; +
+- *print last INTEGER lines of VAR* - вывести последние INTEGER строки таблицы;
+
+=== Комментарии
+
+Язык также поддерживает комментарии. 
+
+[source,C++]
+----
+// single line comment
+
+/* Multi
+ * line
+ * comment
+ */
+----
+
+[#impl-ru].
+== Реализация и архитектура
+
+Теперь мы перейдем к изложению реализации и архитектуры нашего языка. Здесь мы соберем информацию о том, как мы продумали и реализовали язык, а также о том, какую роль играет каждый файл в процессе выполнения. Мы советуем (как всегда) предварительно просмотреть код для лучшего понимания нашего подхода к проблеме.
+
+=== Манипуляция таблицами - файл Table.java
+
+Прежде чем создать сам язык, первым шагом было создание класса Java, который позволил бы нам манипулировать таблицами. В этом классе мы создали несколько функций, которые позволяют нам создавать, манипулировать и получать информацию о таблицах из структуры данных (ArrayList). Внутренне мы рассматриваем таблицу как список списков (ArrayList от Array-List). Учитывая простоту понимания и реализации нашей структуры данных, мы сочли это наилучшим способом. Из этого класса становится возможным создать таблицу из файла CSV (Comma Separated Values), который разбирается и вставляется в структуру данных, упомянутую выше. Это единственный способ создания таблицы с учетом содержимого извне.  Также можно создать таблицу из существующей таблицы, полученной в результате предыдущей операции. Этот класс полностью документирован, имеет всю информацию о реализованных в нем функциях, о том, что требуется для корректного выполнения функций, что они возвращают, а также использует защитное программирование для борьбы с возможными ошибками (исключения и утверждения). Ниже перечислены реализованные операции: +
+- Создание таблиц; +
+    -- Из файла CSV (Comma Separated Values); +
+    -- из другой уже созданной таблицы (объектной или через структуру данных); +
+- Изменение, модификация, получение и очистка полей таблицы; +
+- Добавлять, удалять, получать и очищать строки/столбцы; +
+- Получать количество строк/столбцов; +
+- Получить столбец с уникальными значениями (не повторяющимися); +
+- Получить индекс на основе заголовка; +
+- Получить подтаблицы между строками или столбцами; +
+- Сумма/вычитание таблиц; +
+- Сортировка (по возрастанию / по убыванию) таблицы; +
+- Сравнение таблиц; +
+- Экспорт в CSV файл (Comma Separated Values); +
+- Печать таблицы на терминале; +
+- Печать первых / последних 'n' строк; +
+- Получение максимального / минимального значения, суммы, среднего значения строки или столбца; +
+Эти операции являются главными для общего функционирования нашего языка после перевода на Java. Это было первой целью, чтобы затем мы могли создать язык на основе этих операций и с правильным синтаксисом.
+
+=== Грамматика - файл TableHandler.g4
+
+После создания файла, который создает таблицы и манипулирует ими, пришло время заняться созданием и интерпретацией нашего языка.  Как было сказано выше в "Описании языка", мы решили следовать подходу "SQL", и поэтому данный файл отвечает за распознавание лексем, а также за лексический и синтаксический анализ нашего языка. Работа и интерпретация языка была выполнена, как описано ранее в главе "Описание языка".
+
+=== Компилятор - файл Compiler.java
+
+Этот файл - наш компилятор: отвечающий за регистрацию переменных, которые уже используются в структуре данных (HashMap), и за генерацию кода на Java, используя инструмент String Template, от того же создателя ANTLR4. Если все прошло успешно, этот файл выводит на терминал окончательный код, приведенный к Java, и создает другой файл, который мы назвали "TableOutput.java", являющийся конечным результатом трансляции. Теперь этот файл готов к компиляции и выполнению.
+
+=== Класс Variable - файл Variable.java
+
+Поскольку в нашем языке используется несколько типов данных, необходимо указывать эти данные (тип и имя переменной) в HashMap вместе с ее значением, отсюда возникает необходимость в дополнительном классе, который сможет хранить не только имя переменной, но и ее тип данных, для ее различения и вставки в HashMap.
+
+=== Обработка ошибок
+
+Для обработки ошибок мы решили использовать этот модуль вместо ConsoleErrorListener, родного слушателя ошибок ANTLR4, чтобы мы могли настраивать наши сообщения об ошибках, а также показывать пользователю, где находятся ошибки, чтобы он мог легко отлаживать их.
+
+=== Семантический анализ - файл THSemanticCheck.java 
+
+Этот файл отвечает за семантический анализ, проверяющий ошибки в написанном коде, и в случае их обнаружения печатающий тип ошибки и ее местоположение с помощью модуля обработки ошибок, рассмотренного выше, для информирования пользователя.
+
+
+=== Выполнение языка - файл TableHandlerRun.java
+
+Этот файл является основным файлом, который будет обрабатывать анализ, необходимый для запуска транслятора кода между исходным языком - TableHandler, и целевым языком - Java.
+Для того, чтобы невозможно было изменить этот код с помощью инструмента antlr-main, файлу было присвоено другое имя.
+
+=== Другие файлы
+Для того чтобы сгруппировать все шаблоны, использованные нами при генерации Java-кода, мы создали файл "templates.stg". Мы также включили CSV файл "example.csv", и два файла примеров на нашем языке "example.txt "и "example1.txt "для проверки функциональности. Помните, что в конце выполнения, если все прошло успешно, код, переведенный на Java, выводится на терминал и генерируется файл "TableOutput.java", который содержит окончательный код, готовый к компиляции и выполнению.
+
+
+[#conclusion-ru]
+== Заключение
+
+Мы считаем, что цели проекта были достигнуты. Этот проект заставил нас использовать концепции, рассмотренные на занятиях, и применить на практике то, чему нас учили, чтобы мы могли создать свой собственный язык программирования и на самом деле знать, как работает компилятор, даже если он генерирует код на языке, с которым мы знакомы. Столкнувшись с возможностью творчески подойти к созданию языка, мы столкнулись с некоторыми трудностями, например, в сложении и вычитании таблиц, а также в других операциях, в которых требовалась некоторая креативность с нашей стороны в реализации этих операций, потому что не существует "правильного" способа сделать это. Мы не хотели быть предвзятыми по отношению к первоначальной работе, поэтому мы решили сдать работу сейчас и представить что-то достойное, а не что-то незаконченное. Мы попытались реализовать все, знакомые нам концепции. Listeners, Visitors, генерация кода, создание грамматики, использование обратных вызовов, и немного программирования на Java. В заключение хочу сказать, что этот проект позволил нам приобрести знания о технологии, связанной с компиляцией и лексическим, синтаксическим и семантическим анализом языков программирования, в сочетании с целями раздела курса.
