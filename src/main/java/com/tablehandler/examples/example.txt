@@ -13,11 +13,11 @@ print str;
  *but this time multiline
  */
 
-table table;
-table(read example.csv to table);
-table(print table);
-table(remove row at 2 from table);
-table(print table);
+table tbl;
+table(read example.csv to tbl);
+table(print tbl);
+table(remove row at 2 from tbl);
+table(print tbl);
 
 if(doohickey > 2) {
    print str;
