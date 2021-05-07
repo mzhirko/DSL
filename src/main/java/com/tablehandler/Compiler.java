@@ -23,7 +23,11 @@ public class Compiler extends TableHandlerBaseListener {
 	}
 
 	@Override public void enterMain(TableHandlerParser.MainContext ctx) {
-		group = new STGroupFile("templates.stg");
+		final String FILE_NAME = "templates";
+        final String FILE_FORMAT = "stg";
+        final String IN_FILE_PATH = System.getProperty("user.dir") + "/templates/" + FILE_NAME + "." + FILE_FORMAT;
+        String templateGroupFile = IN_FILE_PATH;
+        group = new STGroupFile(templateGroupFile);
 		main = group.getInstanceOf("main");
 		main.add("className","TableOutput");
 	}
